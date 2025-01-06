@@ -37,39 +37,53 @@ numResults = 3
 inputNumResults = input("number of results (1-20) > ").strip()
 print(inputNumResults)
 if inputNumResults and inputNumResults.isdigit():
-    numResults = int(inputNumResults)
-    if numResults < 1 or numResults > 20:
-        print("invalid choice for number of results")
-        exit()
+	numResults = int(inputNumResults)
+	if numResults < 1 or numResults > 20:
+        	print("invalid choice for number of results")
+        	exit()
 	
 
 podium = []
 testResult = ()
 for key in colors:
-	rDist = (r - colors[key][0]) **2
-	gDist = (g - colors[key][1]) **2
-	bDist = (b - colors[key][2]) **2
+	keyR = colors[key][0]
+	keyG = colors[key][1]
+	keyB = colors[key][2]
+	rDist = (r - keyR) **2
+	gDist = (g - keyG) **2
+	bDist = (b - keyB) **2
 	dist = rDist + gDist + bDist
 	hexcode = colors[key][3]
 	
-	podium += [(key, hexcode, dist)]
+	podium += [(key, hexcode, dist, keyR, keyG, keyB)]
     
 	if inputKeycap and key == inputKeycap:
-	    testResult = (key, hexcode, dist)
+		testResult = (key, hexcode, dist, keyR, keyG, keyB)
 
 podium.sort(key=lambda tup: tup[2])
 
 
+def getColorLine(r, g, b, length):
+	prefix = f"\033[48;2;{r};{g};{b}m"
+	text = " "*length
+	suffix = "\033[0m"
+	return prefix+text+suffix
+
+
+def getResultString(inputRgb, result):
+	name = result[0].rjust(4)
+	hexcode = result[1]
+	dist = str(round(math.sqrt(result[2]), 4)).rjust(8)
+	text = f"{name} ({hexcode}): {dist}"
+	colorLine = getColorLine(result[3], result[4], result[5], 8)
+	compareLine = getColorLine(inputRgb[0], inputRgb[1], inputRgb[2], 4)
+	return text + (colorLine + compareLine)
+
+
 print(f"nearest {numResults} keycap colors to #{inputHex}:")
 for i in range(numResults):
-	name = podium[i][0].rjust(4)
-	hexcode = podium[i][1]
-	dist = str(math.sqrt(podium[i][2]))
-	print(f"{name} ({hexcode}): {dist}")
+	print(getResultString((r,g,b), podium[i]))
 
 if testResult:
 	print("test key result:")
-	name = testResult[0].rjust(4)
-	hexcode = testResult[1]
-	dist = str(math.sqrt(testResult[2]))
-	print(f"{name} ({hexcode}): {dist}")
+	print(getResultString((r,g,b), testResult))
