@@ -1,9 +1,8 @@
 import csv
 import math
 
-inputHex = input("hexcode to search > ").strip().strip('#').lower()
-inputKeycap = input("key color to test > ").strip().lower()
 
+inputHex = input("hexcode to search > ").strip().strip('#').lower()
 r = g = b = -1
 if inputHex:
 	try:
@@ -14,8 +13,9 @@ if inputHex:
 	except ValueError:
 		print("please enter a valid hex color code")
 		exit()
+		
 
-
+inputKeycap = input("key color to test > ").strip().lower()
 colors = {}
 path = "colorvalues.csv"
 with open(path, 'r') as f:
@@ -26,14 +26,25 @@ with open(path, 'r') as f:
 
 if inputKeycap and inputKeycap not in colors:
 	print("keycap color not found")
-	testKeycap = ""
+	exit()
 
 if r == -1 and inputKeycap:
 	print(colors[inputKeycap][3])
 	exit()
 
 
-podium = [("xxxx", float('inf'), "xxxxxx")] * 3
+numResults = 3
+inputNumResults = input("number of results (1-20) > ").strip()
+print(inputNumResults)
+if inputNumResults and inputNumResults.isdigit():
+    numResults = int(inputNumResults)
+    if numResults < 1 or numResults > 20:
+        print("invalid choice for number of results")
+        exit()
+	
+
+podium = []
+testResult = ()
 for key in colors:
 	rDist = (r - colors[key][0]) **2
 	gDist = (g - colors[key][1]) **2
@@ -41,22 +52,24 @@ for key in colors:
 	dist = rDist + gDist + bDist
 	hexcode = colors[key][3]
 	
-	if dist < podium[0][1]:
-		podium[2] = podium[1]
-		podium[1] = podium[0]
-		podium[0] = (key, dist, hexcode)
-	elif dist < podium[1][1]:
-		podium[2] = podium[1]
-		podium[1] = (key, dist, hexcode)
-	elif dist < podium[2][1]:
-		podium[2] = (key, dist, hexcode)
-
+	podium += [(key, hexcode, dist)]
+    
 	if inputKeycap and key == inputKeycap:
-		podium += [(key, dist, hexcode)]
-		
-print(f"nearest 3 keycap colors to #{inputHex}:")
-for result in podium:
-	name = result[0].rjust(4)
-	hexcode = result[2]
-	dist = str(math.sqrt(result[1]))
+	    testResult = (key, hexcode, dist)
+
+podium.sort(key=lambda tup: tup[2])
+
+
+print(f"nearest {numResults} keycap colors to #{inputHex}:")
+for i in range(numResults):
+	name = podium[i][0].rjust(4)
+	hexcode = podium[i][1]
+	dist = str(math.sqrt(podium[i][2]))
+	print(f"{name} ({hexcode}): {dist}")
+
+if testResult:
+	print("test key result:")
+	name = testResult[0].rjust(4)
+	hexcode = testResult[1]
+	dist = str(math.sqrt(testResult[2]))
 	print(f"{name} ({hexcode}): {dist}")
