@@ -11,7 +11,7 @@ if inputHex:
 		g = int(inputHex[2:4], 16)
 		b = int(inputHex[4:6], 16)
 	except ValueError:
-		print("please enter a valid hex color code")
+		print("please enter a valid hex color code (like #0a1bc2)")
 		exit()
 		
 
@@ -25,7 +25,7 @@ with open(path, 'r') as f:
 			colors[line[0]] = (int(line[2]), int(line[3]), int(line[4]), line[1])
 
 if inputKeycap and inputKeycap not in colors:
-	print("keycap color not found")
+	print("keycap color not found, please choose a valid yuzu plastic name")
 	exit()
 
 if r == -1 and inputKeycap:
@@ -33,15 +33,15 @@ if r == -1 and inputKeycap:
 	exit()
 
 
-numResults = 3
-inputNumResults = input("number of results (1-20) > ").strip()
+numResults = 5
+inputNumResults = input("number of results > ").strip()
 print(inputNumResults)
 if inputNumResults and inputNumResults.isdigit():
 	numResults = int(inputNumResults)
-	if numResults < 1 or numResults > 20:
-        	print("invalid choice for number of results")
-        	exit()
-	
+	if numResults < 1 or numResults > 50:
+		print("invalid choice for number of results, please choose a number 1-50")
+		exit()
+
 
 podium = []
 testResult = ()
