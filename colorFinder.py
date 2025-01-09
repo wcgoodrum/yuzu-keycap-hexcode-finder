@@ -4,7 +4,7 @@ import math
 from PIL import Image
 
 # relative path to look in
-path = "keys"
+path = "keyimages"
 # square to sample from
 uprLftCorner = [ 63, 39]
 lwrRgtCorner = [192, 80]
