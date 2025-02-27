@@ -1,7 +1,10 @@
 import csv
 import math
 
-def getColorDictionary(path):		
+"""
+c
+"""
+def getColorDictionary(path: str) -> dict:		
 	colors = {}
 	with open(path, 'r') as f:
 		csvFile = csv.reader(f)
@@ -10,7 +13,7 @@ def getColorDictionary(path):
 				colors[line[0]] = (int(line[2]), int(line[3]), int(line[4]), line[1])
 	return colors
 
-def hexToRGB(hexcode):
+def hexToRGB(hexcode: str) -> tuple:
     hexcode = hexcode.lower().strip().strip('#')
     try:
         if len(hexcode) != 6: raise ValueError()
@@ -21,7 +24,7 @@ def hexToRGB(hexcode):
     except ValueError:
         return (-1,-1,-1)
     
-def getDistancesFromColor(rgb, colors):
+def getDistancesFromColor(rgb: tuple, colors: dict) -> list:
 	podium = []
 	for key in colors:
 		r = rgb[0]
@@ -41,7 +44,7 @@ def getDistancesFromColor(rgb, colors):
 	podium.sort(key=lambda tup: tup[2])
 	return podium
  
-def getColorBlockLine(rgb, length):
+def getColorBlockLine(rgb: tuple, length: int) -> str:
 	r = rgb[0]
 	g = rgb[1]
 	b = rgb[2]
@@ -50,7 +53,7 @@ def getColorBlockLine(rgb, length):
 	suffix = "\033[0m"
 	return prefix+text+suffix
 
-def getResultString(inputRgb, result):
+def getResultString(inputRgb: tuple, result: tuple) -> str:
 	name = result[0].rjust(4)
 	hexcode = result[1]
 	dist = str(round(math.sqrt(result[2]), 4)).rjust(8)
@@ -91,7 +94,7 @@ def main():
 		print(getResultString(rgb, podium[i]))
 
 	if inputKeycap:
-		testResult = getDistancesFromColor(rgb, {colors[inputKeycap]})[0]
+		testResult = getDistancesFromColor(rgb, {inputKeycap: colors[inputKeycap]})[0]
 		print("test key result:")
 		print(getResultString(rgb, testResult))
     
