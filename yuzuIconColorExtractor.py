@@ -38,4 +38,4 @@ with open("colorvalues.csv", "w", newline='') as record:
         hexStr = '#' + hex(redAvr)[2:] + hex(grnAvr)[2:] + hex(bluAvr)[2:]
         writer.writerow([f.replace(".jpg",""), hexStr, str(redAvr), str(grnAvr), str(bluAvr)])
         
-    print("done!")
+print("done!")
