@@ -1,9 +1,7 @@
 import csv
 import math
 
-"""
-c
-"""
+
 def getColorDictionary(path: str) -> dict:		
 	colors = {}
 	with open(path, 'r') as f:
