@@ -6,4 +6,4 @@ Yuzu provides a great service in creating custom keysets, but they don't list th
 
 This program is currently written in python, and I plan to transition it to javascript so that I can have it run in github pages to be useful to the general masses. 
 
-_Legal disclaimer: I'm not associated with Yuzu. If this program leads to you picking bad colors, I'm sorry and also not responsible. If it blows up your computer or rips a backdoor into your network, thats on you. If you steal this code, I will be sad._
+_Legal: I'm not (nor ever have been) associated with Yuzu. This code is has no warranty, I bear no liability._
