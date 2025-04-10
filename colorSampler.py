@@ -13,7 +13,7 @@ with open("colorvalues.csv", "w", newline='') as record:
     writer = csv.writer(record)
     writer.writerow(["yuzu name", "hex value", "red", "green", "blue"])
     
-    fList = os.listdir(imageDir)
+    fList = os.listdir(IMAGEDIR)
     for f in fList:
         print(f)
         image = Image.open(IMAGEDIR + "\\" + f, 'r').load()
